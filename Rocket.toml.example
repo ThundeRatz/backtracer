@@ -1,0 +1,2 @@
+[global.databases]
+data = { url = "postgres://postgres:test@localhost/api" }
