@@ -1,6 +1,6 @@
 table! {
     constants (id) {
-        id -> Int8,
+        id -> Nullable<Int8>,
         created -> Timestamp,
         values -> Array<Int4>,
         alias -> Varchar,

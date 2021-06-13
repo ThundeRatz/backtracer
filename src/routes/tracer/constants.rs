@@ -1,20 +1,22 @@
-use rocket::response::Debug;
+use rocket::response::status::Created;
 use rocket::serde::json::Json;
+use rocket_okapi::openapi;
 use rocket_sync_db_pools::diesel::prelude::*;
 
 use crate::{db, models::constant::Constant, schema::constants};
 
-pub type Result<T, E = Debug<diesel::result::Error>> = std::result::Result<T, E>;
-
 /// Lists all stored constants in the database
+#[openapi(tag = "Constants")]
 #[get("/constants")]
-pub async fn get_constants(conn: db::DbConn) -> Result<Json<Vec<Constant>>> {
-    let ctes: Vec<Constant> = conn.run(move |c| constants::table.load(c)).await?;
-
-    Ok(Json(ctes))
+pub async fn get_constants(conn: db::DbConn) -> Option<Json<Vec<Constant>>> {
+    match conn.run(move |c| constants::table.load(c)).await {
+        Ok(c) => Some(Json(c)),
+        Err(_) => None,
+    }
 }
 
 /// Returns an specific constant as Json, or None if the constant is not found
+#[openapi(tag = "Constants")]
 #[get("/constants/<id>")]
 pub async fn get_constant_id(id: i64, conn: db::DbConn) -> Option<Json<Constant>> {
     let cte: Constant = conn
@@ -23,4 +25,28 @@ pub async fn get_constant_id(id: i64, conn: db::DbConn) -> Option<Json<Constant>
         .ok()?;
 
     Some(Json(cte))
+}
+
+#[openapi(tag = "Constants")]
+#[post("/constants", data = "<cte>", format = "json")]
+pub async fn post_constant(
+    cte: Json<Constant>,
+    conn: db::DbConn,
+) -> Option<Created<Json<Constant>>> {
+    let post_value = cte.clone();
+
+    match conn
+        .run(move |c| {
+            diesel::insert_into(constants::table)
+                .values(&post_value)
+                .execute(c)
+        })
+        .await
+    {
+        Ok(_) => Some(Created::new("/").body(cte)),
+        Err(e) => {
+            println!("Error on creation: {:?}", e);
+            None
+        }
+    }
 }
