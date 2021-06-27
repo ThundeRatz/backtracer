@@ -13,9 +13,11 @@ fn naive_now() -> NaiveDateTime {
 pub struct Constant {
     #[serde(skip_deserializing)]
     pub id: Option<i64>,
+
     #[serde(skip_deserializing)]
     #[serde(default = "naive_now")]
     pub created: NaiveDateTime,
+
     pub values: Vec<i32>,
     pub alias: String,
 }
