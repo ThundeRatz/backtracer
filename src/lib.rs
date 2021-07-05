@@ -11,9 +11,8 @@ use rocket::{Build, Rocket};
 
 pub mod db;
 pub mod models;
+pub mod routes;
 pub mod schema;
-
-mod routes;
 
 /// Runs all diesel's migrations
 pub async fn run_migrations(rocket: Rocket<Build>) -> Rocket<Build> {

@@ -1,6 +1,6 @@
-mod constants;
-mod laps;
-mod rules;
+pub mod constants;
+pub mod laps;
+pub mod rules;
 
 use rocket::Route;
 use rocket_okapi::routes_with_openapi;
@@ -20,6 +20,7 @@ pub fn routes() -> Vec<Route> {
         rules::redirect_to_rule,
         constants::get_constants,
         constants::get_constant_id,
+        constants::get_constant_types,
         constants::post_constant,
         laps::get_laps,
     ];

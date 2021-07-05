@@ -1,0 +1,14 @@
+{
+    "sqltools.connections": [
+        {
+            "previewLimit": 50,
+            "server": "172.25.64.1",
+            "port": 5432,
+            "driver": "PostgreSQL",
+            "name": "tapi",
+            "database": "api",
+            "username": "postgres",
+            "password": "test"
+        }
+    ]
+}

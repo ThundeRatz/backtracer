@@ -1,21 +1,43 @@
-table! {
-    constants (id) {
-        id -> Nullable<Int8>,
-        created -> Timestamp,
-        values -> Array<Int4>,
-        alias -> Varchar,
+pub mod tracer {
+    table! {
+        tracer.constant_groups (id) {
+            id -> Int4,
+            name -> Text,
+            created -> Timestamp,
+        }
     }
-}
 
-table! {
-    rules (id) {
-        id -> Int8,
-        name -> Varchar,
-        url -> Varchar,
+    table! {
+        tracer.constant_types (id) {
+            id -> Int2,
+            description -> Text,
+        }
     }
-}
 
-allow_tables_to_appear_in_same_query!(
-    constants,
-    rules,
-);
+    table! {
+        tracer.constants (id) {
+            id -> Int4,
+            group_id -> Int4,
+            ctype -> Int2,
+            value -> Float4,
+        }
+    }
+
+    table! {
+        tracer.rules (id) {
+            id -> Int4,
+            name -> Varchar,
+            url -> Varchar,
+        }
+    }
+
+    joinable!(constants -> constant_groups (group_id));
+    joinable!(constants -> constant_types (ctype));
+
+    allow_tables_to_appear_in_same_query!(
+        constant_groups,
+        constant_types,
+        constants,
+        rules,
+    );
+}
