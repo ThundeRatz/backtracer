@@ -19,9 +19,10 @@ pub fn routes() -> Vec<Route> {
         rules::get_rule_id,
         rules::redirect_to_rule,
         constants::get_constants,
-        constants::get_constant_id,
-        constants::get_constant_types,
+        constants::get_constant,
         constants::post_constant,
+        constants::get_constant_types,
+        constants::post_constant_types,
         laps::get_laps,
     ];
 

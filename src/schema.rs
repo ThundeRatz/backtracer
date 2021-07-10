@@ -15,8 +15,7 @@ pub mod tracer {
     }
 
     table! {
-        tracer.constants (id) {
-            id -> Int4,
+        tracer.constants (group_id, ctype) {
             group_id -> Int4,
             ctype -> Int2,
             value -> Float4,

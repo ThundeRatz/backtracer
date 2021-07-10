@@ -1,7 +1,7 @@
-use backtracer::routes::tracer::constants::NewConstants;
+use backtracer::routes::tracer::constants::ConstantGroupJson;
 
 fn main() {
-    let nc = NewConstants {
+    let nc = ConstantGroupJson {
         name: "name".to_string(),
         values: vec![(1, 1.3), (2, 3.5), (3, 5.6)].into_iter().collect(),
     };
@@ -10,7 +10,7 @@ fn main() {
 
     println!("{}", string);
 
-    let nc_parsed = serde_json::from_str::<NewConstants>(string.as_str()).unwrap();
+    let nc_parsed = serde_json::from_str::<ConstantGroupJson>(string.as_str()).unwrap();
 
     println!("{:?}", nc_parsed);
 }

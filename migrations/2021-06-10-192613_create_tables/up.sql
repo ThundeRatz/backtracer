@@ -10,12 +10,12 @@ CREATE TABLE "tracer"."constant_types" (
 );
 CREATE TABLE "tracer"."constant_groups" (
     "id" serial NOT NULL PRIMARY KEY,
-    "name" TEXT NOT NULL,
+    "name" TEXT NOT NULL UNIQUE,
     "created" TIMESTAMP NOT NULL DEFAULT NOW()
 );
 CREATE TABLE "tracer"."constants" (
-    "id" serial NOT NULL PRIMARY KEY,
     "group_id" int NOT NULL REFERENCES "tracer"."constant_groups" ON DELETE RESTRICT,
     "ctype" smallint NOT NULL REFERENCES "tracer"."constant_types",
-    "value" float4 NOT NULL
+    "value" float4 NOT NULL,
+    PRIMARY KEY ("group_id", "ctype")
 );
