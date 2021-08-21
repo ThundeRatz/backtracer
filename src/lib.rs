@@ -7,8 +7,10 @@ extern crate diesel_migrations;
 #[macro_use]
 extern crate diesel;
 
-use rocket::{Build, Rocket};
+use auth::Config;
+use rocket::{fairing::AdHoc, Build, Rocket};
 
+pub mod auth;
 pub mod db;
 pub mod models;
 pub mod routes;
@@ -31,7 +33,12 @@ pub async fn run_migrations(rocket: Rocket<Build>) -> Rocket<Build> {
 
 /// Returns rocket object with all routes mounted
 pub fn rocket() -> Rocket<Build> {
-    rocket::build()
+    let rocket = rocket::build();
+    let figment = rocket.figment();
+    let _config: Config = figment.extract().expect("config");
+
+    rocket
         .mount("/", routes::base::routes())
         .mount("/tracer", routes::tracer::routes())
+        .attach(AdHoc::config::<Config>())
 }

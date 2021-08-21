@@ -5,11 +5,11 @@ use diesel::result::Error;
 use rocket_sync_db_pools::diesel::prelude::*;
 
 // Constant (groups and actual values)
-pub fn get_all(conn: &PgConnection) -> Result<Vec<ConstantGroup>, Error> {
+pub fn get_all(conn: &PgConnection) -> QueryResult<Vec<ConstantGroup>> {
     constant_groups::table.load(conn)
 }
 
-pub fn get_one_by_name(conn: &PgConnection, name: &str) -> Result<HashMap<i16, f32>, Error> {
+pub fn get_one_by_name(conn: &PgConnection, name: &str) -> QueryResult<HashMap<i16, f32>> {
     let mut hm = HashMap::new();
 
     let ctes = constants::table
@@ -29,7 +29,7 @@ pub fn add_group(
     conn: &PgConnection,
     name: String,
     constants: HashMap<i16, f32>,
-) -> Result<ConstantGroup, Error> {
+) -> QueryResult<ConstantGroup> {
     conn.transaction::<ConstantGroup, Error, _>(|| {
         let cgroup = diesel::insert_into(constant_groups::table)
             .values(constant_groups::name.eq(name))
@@ -53,11 +53,11 @@ pub fn add_group(
 }
 
 // Constant Types
-pub fn get_types(conn: &PgConnection) -> Result<Vec<ConstantType>, Error> {
+pub fn get_types(conn: &PgConnection) -> QueryResult<Vec<ConstantType>> {
     constant_types::table.load(conn)
 }
 
-pub fn add_type(conn: &PgConnection, id: i16, description: String) -> Result<ConstantType, Error> {
+pub fn add_type(conn: &PgConnection, id: i16, description: String) -> QueryResult<ConstantType> {
     conn.transaction::<ConstantType, Error, _>(|| {
         let ctype = diesel::insert_into(constant_types::table)
             .values((

@@ -6,14 +6,17 @@ use rocket::serde::{Deserialize, Serialize};
 use rocket_okapi::openapi;
 use rocket_okapi::JsonSchema;
 
-use crate::db;
 use crate::models::constant::{ConstantGroup, ConstantType};
 use crate::routes::errors::Errors;
+use crate::{auth, db};
 
 /// Lists all stored constants in the database
 #[openapi(tag = "Constants")]
 #[get("/constants")]
-pub async fn get_constants(conn: db::DbConn) -> Result<Json<Vec<ConstantGroup>>, Errors> {
+pub async fn get_constants(
+    _auth: auth::ApiKey<'_>,
+    conn: db::DbConn,
+) -> Result<Json<Vec<ConstantGroup>>, Errors> {
     match conn.run(move |c| db::constants::get_all(c)).await {
         Ok(ctes) => Ok(Json(ctes)),
         Err(e) => Err(e.into()),
@@ -29,6 +32,7 @@ pub struct ConstantGroupJson {
 #[openapi(tag = "Constants")]
 #[post("/constants", data = "<cte>", format = "json")]
 pub async fn post_constant(
+    _auth: auth::ApiKey<'_>,
     cte: Json<ConstantGroupJson>,
     conn: db::DbConn,
 ) -> Result<Created<Json<ConstantGroup>>, Errors> {
@@ -47,6 +51,7 @@ pub async fn post_constant(
 #[openapi(tag = "Constants")]
 #[get("/constants/<name>")]
 pub async fn get_constant(
+    _auth: auth::ApiKey<'_>,
     name: String,
     conn: db::DbConn,
 ) -> Result<Option<Json<ConstantGroupJson>>, Errors> {
@@ -68,7 +73,10 @@ pub async fn get_constant(
 
 #[openapi(tag = "Constants")]
 #[get("/constant_types")]
-pub async fn get_constant_types(conn: db::DbConn) -> Option<Json<Vec<ConstantType>>> {
+pub async fn get_constant_types(
+    _auth: auth::ApiKey<'_>,
+    conn: db::DbConn,
+) -> Option<Json<Vec<ConstantType>>> {
     match conn.run(move |c| db::constants::get_types(c)).await {
         Ok(c) => Some(Json(c)),
         Err(_) => None,
@@ -78,6 +86,7 @@ pub async fn get_constant_types(conn: db::DbConn) -> Option<Json<Vec<ConstantTyp
 #[openapi(tag = "Constants")]
 #[post("/constant_types", data = "<ctype>", format = "json")]
 pub async fn post_constant_types(
+    _auth: auth::ApiKey<'_>,
     conn: db::DbConn,
     ctype: Json<ConstantType>,
 ) -> Result<Created<Json<ConstantType>>, Errors> {
