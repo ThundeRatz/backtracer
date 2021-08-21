@@ -22,7 +22,7 @@ curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 docker swarm init  # If it's not already initialized
 docker stack deploy -c stack.yml postgres
 
-# Rename/copy Rocket.toml.example to Rocket.toml and adjust databse info if needed
+# Rename/copy Rocket.toml.example to Rocket.toml and adjust database and api key info if needed
 cp Rocket.toml.example Rocket.toml
 
 # Run the app, migrations are run automatically with diesel_migrations
@@ -33,7 +33,14 @@ App runs by default at `localhost:8000`, go to `localhost:8000/tracer` to see th
 
 ---
 
-As stated, this is in very early stages, there's no authentication and only a few endpoints,
+## Authentication
+
+Authentication is made via an API Key provided by the `x-api-key` header, this API key must be set
+in the Rocket.toml file.
+
+---
+
+As stated, this is in very early stages, there's only a few endpoints,
 this README will be updated when more features are added
 
 ---
