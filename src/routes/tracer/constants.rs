@@ -76,10 +76,10 @@ pub async fn get_constant(
 pub async fn get_constant_types(
     _auth: auth::ApiKey<'_>,
     conn: db::DbConn,
-) -> Option<Json<Vec<ConstantType>>> {
+) -> Result<Json<Vec<ConstantType>>, Errors> {
     match conn.run(move |c| db::constants::get_types(c)).await {
-        Ok(c) => Some(Json(c)),
-        Err(_) => None,
+        Ok(c) => Ok(Json(c)),
+        Err(e) => Err(e.into()),
     }
 }
 

@@ -24,6 +24,7 @@ pub fn routes() -> Vec<Route> {
         constants::get_constant_types,
         constants::post_constant_types,
         laps::get_laps,
+        laps::post_lap,
     ];
 
     let mut swagger_route: Vec<Route> = make_swagger_ui(&get_docs()).into();
