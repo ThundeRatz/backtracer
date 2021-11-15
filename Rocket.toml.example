@@ -1,5 +1,0 @@
-[global]
-api_key = "your_key_here"
-
-[global.databases]
-data = { url = "postgres://postgres:test@localhost/api" }
