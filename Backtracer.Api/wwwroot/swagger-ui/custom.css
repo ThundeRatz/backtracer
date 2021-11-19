@@ -1,0 +1,18 @@
+@charset "UTF-8";
+.swagger-ui .topbar {
+  background-color: #353535;
+}
+
+img[alt="Swagger UI"] {
+  display: block;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  content: url("/img/logo.png");
+  max-width: 100%;
+  max-height: 100%;
+}
+
+.swagger-ui table.model tr.description td:first-child,
+.swagger-ui table.model tr.property-row.required td:first-child {
+  vertical-align: middle;
+}

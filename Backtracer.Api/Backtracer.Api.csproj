@@ -5,9 +5,12 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UserSecretsId>backtracer.api</UserSecretsId>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning" Version="5.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning.ApiExplorer" Version="5.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.0" />
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="6.0.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
@@ -15,6 +18,11 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Backtracer.Persistence\Backtracer.Persistence.csproj" />
+    <ProjectReference Include="..\Backtracer.Application\Backtracer.Application.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\*" />
   </ItemGroup>
 
 </Project>
