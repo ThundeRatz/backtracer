@@ -17,6 +17,10 @@ internal class ConstantGroupEntityTypeConfiguration : IEntityTypeConfiguration<C
 
     public void Configure(EntityTypeBuilder<ConstantGroupEntity> builder) {
         builder.ToTable(TableName, SchemaName);
-        builder.Property(b => b.Created).HasDefaultValue(DateTime.UtcNow);
+        builder.HasAlternateKey(b => b.Name);
+        builder.Property(b => b.Created)
+            .HasColumnType("timestamp without time zone")
+            .HasDefaultValueSql("NOW()")
+            .ValueGeneratedOnAdd();
     }
 }

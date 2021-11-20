@@ -10,5 +10,6 @@
             "username": "postgres",
             "password": "test"
         }
-    ]
+    ],
+    "dotnet-test-explorer.testProjectPath": "**/*Test.@(csproj|vbproj|fsproj)"
 }

@@ -1,5 +1,10 @@
 namespace Backtracer.Application.Model;
 
+public record class ConstantType {
+    public int Id { get; set; }
+    public string Description { get; set; } = null!;
+}
+
 public record class ConstantGroup {
     public int Id { get; set; }
     public string Name { get; set; } = null!;
