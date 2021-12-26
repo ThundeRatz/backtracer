@@ -47,4 +47,5 @@ app.UseSpa(configuration => {
     }
 });
 
+app.Services.GetRequiredService<DataContext>().Database.Migrate();
 app.Run();
