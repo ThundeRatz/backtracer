@@ -1,3 +1,8 @@
+secrets.json
+*/wwwroot/assets
+*/wwwroot/global.css
+*/wwwroot/index.html
+*/wwwroot/favicon.ico
 
 # Created by https://www.toptal.com/developers/gitignore/api/dotnetcore,aspnetcore,visualstudiocode
 # Edit at https://www.toptal.com/developers/gitignore?templates=dotnetcore,aspnetcore,visualstudiocode
