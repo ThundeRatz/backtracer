@@ -2,8 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using Backtracer.Persistence;
 using Microsoft.AspNetCore.Mvc;
 using Backtracer.Api.Extensions;
-using SpaCliMiddleware;
-using Microsoft.AspNetCore.SpaServices;
+using Microsoft.AspNetCore.SpaServices.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 var env = builder.Environment;
