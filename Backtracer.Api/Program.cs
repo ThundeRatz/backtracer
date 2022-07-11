@@ -2,7 +2,6 @@ using Microsoft.EntityFrameworkCore;
 using Backtracer.Persistence;
 using Microsoft.AspNetCore.Mvc;
 using Backtracer.Api.Extensions;
-using Microsoft.AspNetCore.SpaServices.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 var env = builder.Environment;
@@ -10,7 +9,7 @@ var env = builder.Environment;
 builder.Services.AddControllers();
 builder.Services.AddDbContext<DataContext>(o => o.UseNpgsql(builder.Configuration.GetConnectionString("DatabaseConnection")));
 
-builder.Services.InjectDependencies();
+builder.Services.AddServices();
 
 builder.Services.AddMvcCore();
 builder.Services.AddApiVersioning(options => {
@@ -20,7 +19,7 @@ builder.Services.AddApiVersioning(options => {
 });
 
 builder.Services.AddSpaStaticFiles(configuration => {
-    configuration.RootPath = "ClientApp/build";
+    configuration.RootPath = "wwwroot";
 });
 
 builder.Services.ConfigureSwagger();
@@ -47,5 +46,8 @@ app.UseSpa(configuration => {
     }
 });
 
-app.Services.GetRequiredService<DataContext>().Database.Migrate();
+using (var scope = app.Services.CreateAsyncScope()) {
+    scope.ServiceProvider.GetRequiredService<DataContext>().Database.Migrate();
+}
+
 app.Run();
